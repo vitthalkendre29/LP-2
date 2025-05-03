@@ -12,20 +12,22 @@ class Graph:
         self.graph[u].append(v) 
         self.graph[v].append(u) 
  
-    def dfs(self, start,target,visited=None): 
-        if visited is None:
-            visited = set() 
-        visited.add(start) 
-        if start==target: 
-            return True 
-        print(start, end=" ") 
-        for i in self.graph[start]:
-            if i not in visited: 
-                if self.dfs(i,target, visited): 
-                    return True 
-        return False 
+    def dfs(self, start): 
+        visited=set()
+        stack=[start]
+
+        while stack:
+            node=stack.pop()
+            if node not in visited:
+                visited.add(node)
+                print(node," ")
+                
+                for neighbour in reversed(self.graph[node]):
+                    if neighbour not in  visited:
+                        stack.append(neighbour)
+
  
-    def bfs(self, start,target): 
+    def bfs(self, start): 
         visited = set() 
         queue = deque([start]) 
         visited.add(start) 
@@ -33,10 +35,7 @@ class Graph:
         while queue: 
             vertex = queue.popleft() 
             print(vertex, end=" ") 
-            if(vertex==target): 
-                break 
             for i in self.graph[vertex]: 
-                print("vk",i)
                 if i not in visited: 
                     visited.add(i) 
                     queue.append(i) 
@@ -65,12 +64,10 @@ for _ in range(num_nodes - 1):
 print("\nGraph (Adjacency List):") 
 print(gr.graph) 
  
-target=input("\nEnter a Node where to travese:") 
- 
 start_node = input("\nEnter the star ng node for traversal: ") 
  
 print("DFS:") 
-gr.dfs(start_node,target) 
+gr.dfs(start_node) 
  
 print("\nBFS:") 
-gr.bfs(start_node,target) 
+gr.bfs(start_node) 
